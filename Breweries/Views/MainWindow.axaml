@@ -1,0 +1,119 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Breweries.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Breweries="clr-namespace:Breweries"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Breweries.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="{Binding NameProgram}"
+        Height="450"
+        Width="1100"
+        MinHeight="450"
+        MinWidth="1100"
+        ExtendClientAreaToDecorationsHint="True">
+    
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    
+    <Grid Background="{Binding BackgroundProgram}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" VerticalAlignment="Bottom">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="300"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label FontWeight="Bold" FontStyle="15" Foreground="{Binding ForegroundLetters}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10" FontSize="18" Content="{Binding NameProgram}"></Label>
+                <TextBox Watermark="Название пивоварни" Width="300" HorizontalAlignment="Right" x:Name="SearchRequest" FontWeight="Bold" FontStyle="25"  Grid.Row="0" Grid.Column="1" Margin="5" Background="{Binding BackgroundProgram}" Foreground="{Binding ForegroundLetters}"></TextBox>
+                <Button HorizontalAlignment="Right" Click="SearchBtn" FontWeight="Bold" FontStyle="25" Margin="15,0,0,0" Grid.Row="0" Grid.Column="2" Content="Поиск" Foreground="{Binding ForegroundLetters}"></Button>
+                <Button HorizontalAlignment="Right" Click="RandomBrewerie" FontWeight="Bold" FontStyle="25" Margin="15,0,0,0" Grid.Row="0" Grid.Column="4" Content="Случайная пивоварня" Foreground="{Binding ForegroundLetters}"></Button>
+                <Button HorizontalAlignment="Right" Click="Main" FontWeight="Bold" FontStyle="25" Margin="15,0,0,0" Grid.Row="0" Grid.Column="6" Content="Главная" Foreground="{Binding ForegroundLetters}"></Button>
+                </Grid>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5">
+         
+            <StackPanel> 
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Margin="10,0,0,0" Content="Найти ближайшие пивоварни:" VerticalAlignment="Center" Grid.Column="0" FontWeight="Bold" FontFamily="Comic Sans MS" Foreground="{Binding ForegroundLetters}"></Label>
+                    <TextBox Watermark="Широта" Width="150" Grid.Column="1" x:Name="latitude"></TextBox>
+                    <TextBox Watermark="Долгота" Width="150" Grid.Column="3" x:Name="longitude"></TextBox>
+                    <Button HorizontalAlignment="Right" Click="SortDist" FontWeight="Bold" FontStyle="25" Grid.Column="4" Margin="10,0,0,0" Content="Найти" Foreground="{Binding ForegroundLetters}"></Button>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+        <ScrollViewer Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="2">
+            <StackPanel>
+                
+                <ScrollViewer>
+                    <DataGrid Name="MyDataGrid" x:Name="DataGridBreweries" IsVisible="True" IsReadOnly="True" Foreground="{Binding ForegroundLetters}" AutoGenerateColumns="False" FontWeight="Bold" FontFamily="Franklin Gothic Medium" FontSize="14">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название пивоварни"  Binding="{Binding Path=name}"/>
+                            <DataGridTextColumn Header="Тип пивоварни" Binding="{Binding Path=brewery_type}" />
+                            <DataGridTextColumn Header="Штат" Binding="{Binding Path=state}" />
+                            <DataGridTextColumn Header="Город" Binding="{Binding Path=city}" />
+                            <DataGridTextColumn Header="Улица" Binding="{Binding Path=street}" />
+                        </DataGrid.Columns>
+                        
+                        <DataGrid.RowDetailsTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="20">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Column="1" Grid.Row="0" Text="Номер телефона: " />
+                                        <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Path=phone}" />
+                                        <TextBlock Grid.Column="1" Grid.Row="1" Text="Адрес 2: " />
+                                        <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding Path=address_2}" />
+                                        <TextBlock Grid.Column="1" Grid.Row="2" Text="Адрес 3: " />
+                                        <TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding Path=address_3}" />
+                                        <TextBlock Grid.Column="1" Grid.Row="3" Text="Сайт: " />
+                                        <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding Path=website_url}" IsReadOnly="True"/>
+                                        </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
+                    </DataGrid>
+                </ScrollViewer>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
